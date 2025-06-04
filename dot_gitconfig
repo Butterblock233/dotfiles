@@ -1,0 +1,13 @@
+[user]
+    name = Butterblock233
+    email = Voltage15312@outlook.com
+    # optional: signingkey for GPG (if you sign your commits)
+    ; signingkey =
+
+[core]
+    editor = nvim # 你的默认编辑器，用于编写提交信息、rebase 等
+    autocrlf = input # 处理换行符，Windows 上常用 'input'
+    # autocrlf = true # 推荐在 Windows 上设置为 true，用于处理Windows和Linux/macOS之间的换行符差异
+    # autocrlf = false # 如果你希望完全手动控制换行符，设置为 false
+    # fscache = true # (Windows only) 启用文件系统缓存，提高性能，尤其是在 WSL 场景
+    excludesfile = ~/.gitignore_global # 全局的 Git 忽略文件，用于所有仓库

@@ -1,0 +1,25 @@
+# .chezmoiexternal.toml
+#
+# 方括号中的路径是相对于用户主目录的目标路径。
+# Chezmoi 会确保这个 Git 仓库的内容被克隆到这个目标位置。
+[".config/nvim"]
+    type = "git-repo"
+    url = "https://github.com/butterblock233/nvim.git"
+    # refreshPeriod 是可选的，它告诉 Chezmoi 多久检查一次更新
+    # "168h" 表示每 7 天 (168 小时) 检查一次
+    refreshPeriod = "24h"
+    # pull 部分也是可选的，用于给 git pull 命令传递额外参数
+    # 例如，--ff-only 确保只有在可以快进合并时才拉取
+    [".config/nvim".pull]
+        args = ["--ff-only"]
+
+[".emacs.d"]
+	type = "git-repo"
+    url = "https://github.com/butterblock233/.emacs.d.git"
+    # refreshPeriod 是可选的，它告诉 Chezmoi 多久检查一次更新
+    # "168h" 表示每 7 天 (168 小时) 检查一次
+    refreshPeriod = "24h"
+    # pull 部分也是可选的，用于给 git pull 命令传递额外参数
+    # 例如，--ff-only 确保只有在可以快进合并时才拉取
+    [".emacs.d".pull]
+        args = ["--ff-only"]
