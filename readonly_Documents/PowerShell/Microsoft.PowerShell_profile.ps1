@@ -1,7 +1,21 @@
-# $env:HTTPS_PROXY = '127.0.0.1:2080'
-# $env:EDITOR = 'nvim'
 $profile_path = Split-Path -Parent $PROFILE
-Invoke-Expression $profile_path/zoxide.ps1
-Invoke-Expression $profile_path/env.ps1
-# Set-Alias -Name "cd" -Value "z"
+$modules= @(
+	"zoxide.ps1",
+	"env.ps1",
+	"plugin.ps1",
+	"alias.ps1"
+)
 
+function load_module()
+{
+	foreach($i in $modules)
+	{
+		$full_path = Join-Path $profile_path $i
+		# Write-Output("Loading $full_path")
+		Invoke-Expression $full_path
+	}
+}
+
+load_module
+
+oh-my-posh init pwsh --eval | Invoke-Expression
