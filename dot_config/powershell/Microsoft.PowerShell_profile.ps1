@@ -3,7 +3,8 @@ $modules= @(
 	"zoxide.ps1",
 	"env.ps1",
 	"plugin.ps1",
-	"alias.ps1"
+	"alias.ps1",
+	"keymaps.ps1"
 )
 
 function load_module()

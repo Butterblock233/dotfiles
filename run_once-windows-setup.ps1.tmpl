@@ -1,0 +1,20 @@
+{{ if eq .chezmoi.os "windows" }}
+function Create-SymlinkIfMissing($Target, $Source) {
+    if (-not (Test-Path $Target)) {
+        Write-Host "Creating symbolic link from '$Target' to '$Source'"
+        New-Item -ItemType SymbolicLink -Path $Target -Target $Source | Out-Null
+    } else {
+        Write-Host "Target '$Target' already exists, skipping."
+    }
+}
+
+# PowerShell: ~/Documents/PowerShell → ~/.config/powershell
+$pwshSource = "$HOME\.config\powershell"
+$pwshTarget = "$HOME\Documents\PowerShell"
+Create-SymlinkIfMissing -Target $pwshTarget -Source $pwshSource
+
+# Neovim: ~/AppData/Local/nvim → ~/.config/nvim
+$nvimSource = "$HOME\.config\nvim"
+$nvimTarget = "$HOME\AppData\Local\nvim"
+Create-SymlinkIfMissing -Target $nvimTarget -Source $nvimSource
+{{ end }}
