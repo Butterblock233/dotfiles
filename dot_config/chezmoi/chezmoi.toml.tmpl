@@ -1,0 +1,38 @@
+# This file is managed by chezmoi.
+# It is a template that will generate ~/.config/chezmoi/chezmoi.toml
+
+encryption = "gpg"
+
+# The age section is commented out as we are using GPG.
+# [age]
+#   identity = "{{ .chezmoi.homeDir }}/age-key.txt"
+#   recipient = "age13nzdryl2fjlzcp4y84aejpnnd93ugqeer6ujl4gtqztzhmrrkgcsktkk4c"
+
+[gpg]
+recipients = [
+  # Using the GPG key fingerprint is recommended for precision.
+  "5443D40CFB826567374D73B8FD13251EBE42D48D"
+  # You can add other recipients (e.g., email or key ID) if needed:
+  # "Voltage15312@outlook.com",
+]
+
+# --- Optional: Add conditional logic for different machines ---
+# If you manage multiple machines with chezmoi, you might want to add
+# specific configurations based on the operating system or hostname.
+# For example:
+
+# {{ if eq .chezmoi.os "linux" }}
+# [data]
+#   osSpecificSetting = "This is a Linux machine."
+# {{ else if eq .chezmoi.os "windows" }}
+# [data]
+#   osSpecificSetting = "This is a Windows machine."
+# {{ end }}
+#
+# {{ if eq .chezmoi.hostname "your-work-pc" }}
+# [custom]
+#   profile = "work"
+# {{ else }}
+# [custom]
+#   profile = "personal"
+# {{ end }}
