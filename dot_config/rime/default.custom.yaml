@@ -1,0 +1,20 @@
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.17.4
+  generator: "Rime::SwitcherSettings"
+  modified_time: "Wed Jun 18 21:57:40 2025"
+  rime_version: 1.13.1
+patch:
+  "ascii_composer/switch_key":
+    # Caps_Lock: commit_code
+    Shift_L: noop
+    Shift_R: noop
+    # Control_L: commit_code
+    # Control_R: commit_code
+  "schema_list":
+    # - {schema: luna_pinyin}
+    - {schema: luna_pinyin_simp}
+    - {schema: luna_pinyin_fluency}
+# 候选词横向排列
+ # 禁用 Shift 切换中英文
+# 这会移除所有按 Shift 键时触发 ascii_mode 切换的默认绑定
