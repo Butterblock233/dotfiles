@@ -15,7 +15,7 @@
 
 [".emacs.d"]
 	type = "git-repo"
-    url = "git@github.com/butterblock233/.emacs.d.git"
+    url = "git@github.com:Butterblock233/.emacs.d.git"
     # refreshPeriod 是可选的，它告诉 Chezmoi 多久检查一次更新
     # "168h" 表示每 7 天 (168 小时) 检查一次
     refreshPeriod = "24h"
