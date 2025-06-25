@@ -1,20 +1,24 @@
-customization:
+customization: 
   distribution_code_name: Weasel
   distribution_version: 0.17.4
-  generator: "Rime::SwitcherSettings"
-  modified_time: "Wed Jun 18 21:57:40 2025"
+  generator: "Rime: :SwitcherSettings"
+  modified_time: "Thu Jun 19 11: 17:24 2025"
   rime_version: 1.13.1
-patch:
-  "ascii_composer/switch_key":
-    # Caps_Lock: commit_code
-    Shift_L: noop
-    Shift_R: noop
-    # Control_L: commit_code
-    # Control_R: commit_code
-  "schema_list":
-    # - {schema: luna_pinyin}
-    - {schema: luna_pinyin_simp}
-    - {schema: luna_pinyin_fluency}
-# 候选词横向排列
- # 禁用 Shift 切换中英文
-# 这会移除所有按 Shift 键时触发 ascii_mode 切换的默认绑定
+patch: 
+  "key_binder/bindings":
+    - { when: always, accept: "Control+Shift+space", toggle: ascii_mode }
+  schema_list: 
+    - schema: luna_pinyin_simp
+  "menu/page_size": 7
+  "ascii_composer/good_old_caps_lock": false
+  "ascii_composer/switch_key/Caps_Lock": noop
+  "ascii_composer/switch_key/Control_L": noop
+  "ascii_composer/switch_key/Control_R": noop
+  "ascii_composer/switch_key/Eisu_toggle": clear
+  "ascii_composer/switch_key/Shift_L": noop
+  "ascii_composer/switch_key/Shift_R": commit_text
+  "switcher/caption": "〔方案選單〕"
+  "switcher/hotkeys": 
+    - Control+grave
+    - Control+Shift+grave
+    - F4

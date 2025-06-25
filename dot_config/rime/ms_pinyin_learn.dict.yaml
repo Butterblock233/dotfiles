@@ -3,6 +3,7 @@ name: ms_pinyin_learn
 version: "0.0.1"
 sort: by_weight
 ...
+
 啊啊啊啊啊啊啊啊啊啊啊啊	a a a a a a a a a a a a	1
 暗带	an dai	1
 熬夜冠军	ao ye guan jun	1
@@ -30,7 +31,6 @@ sort: by_weight
 变相承认	bian xiang cheng ren	1
 编写一些	bian xie yi xie	1
 编写一下	bian xie yi xia	1
-不喜喜	bu xi xi	1
 不嘻嘻	bu xi xi	1
 壁细胞	bi xi bao	1
 本质上看	ben zhi shang kan	1
@@ -67,7 +67,7 @@ sort: by_weight
 第二集体	di er ji ti	1
 第二极体	di er ji ti	1
 打瓦	da wa	1
-东风练习曲	dong feng lian xi qu	1
+冬风练习曲	dong feng lian xi qu	1
 多维表格	duo wei biao ge	1
 单核吞噬细胞	dan he tun shi xi bao	1
 多极神经元	duo ji shen jing yuan	1
@@ -100,7 +100,6 @@ sort: by_weight
 股外侧浅静脉	gu wai ce qian jing mai	1
 感觉器	gan jue qi	1
 骨基质	gu ji zhi	1
-高了快	gao le kuai	1
 搞来一套	gao lai yi tao	1
 股内侧浅静脉	gu nei ce qian jing mai	1
 更前面	geng qian mian	1
@@ -181,7 +180,6 @@ sort: by_weight
 就爆出来	jiu bao chu lai	1
 间充质细胞	jian chong zhi xi bao	1
 绝大部分是	jue da bu fen shi	1
-绝地潜水	jue di qian shui	1
 就当无视发生	jiu dang wu shi fa sheng	1
 巨大突破	ju da tu po	1
 近端小管	jin duan xiao guan	1
@@ -220,12 +218,11 @@ sort: by_weight
 快速迭代	kuai su die dai	1
 快速普及	kuai su pu ji	1
 快速阻断反应	kuai su zu duan fan ying	1
-可是细胞	ke shi xi bao	1
+科式细胞	ke shi xi bao	1
 科研导论	ke yan dao lun	1
 口咽膜	kou yan mo	1
 卡在这边	ka zai zhe bian	1
 看着手表	kan zhe shou biao	1
-男泵	nan beng	1
 淋巴组织	lin ba zu zhi	1
 列表嵌套	lie biao qian tao	1
 难绷	nan beng	1

@@ -20,19 +20,31 @@ use_preset_vocabulary: true
 #下面的是本词库包含的所有词库，请根据需要开启/禁用，词条前添删#号即可开启/关闭词库。
 #雙拼不支持 luna_pinyin.cn_en 詞庫，請用戶手動禁用。
 import_tables:
+    # 个人词库
+  - ms_pinyin_learn  # 微软拼音的自学习词库
+  - anatomy  # 解剖学词库
+  - moegirl # 萌娘百科词库
+  # 系统词库
   - luna_pinyin      #系统自带词库，无意外必须开启。
   - luna_pinyin.basis     #精选的基本词库，搜集于拼音加加、小麥、新酷音、維基百科等。
-  - luna_pinyin.hanyu  #汉语大词典，多为2字词。 2.2w
+  # - luna_pinyin.hanyu  #汉语大词典，多为2字词。 2.2w
   - luna_pinyin.poetry #常用诗词，来源于唐宋诗词、千家詩、花間集、楚辭、詩經。 2.6w
 
-  # 个人词库
-  - anatomy  # 解剖学词库
-  - ms_pinyin_learn  # 微软拼音的自学习词库
-  - moegirl # 萌娘百科词库
+
   # #- luna_pinyin.gd   #粤语词库，广东人必备。1.2w
   # - luna_pinyin.idiom   #俗语，如题，含常用俗语，文青必备。6.6w
   # - luna_pinyin.classical  #成语，含常用成语、文青标配。2.8w
   # - luna_pinyin.biaoqing  #颜表情，ಠ_ಠ、(｡>ㅅ<｡)、(☍﹏⁰)、(￣_￣|||)..     0.2k
   # - zhwiki
-  # - moegirl
-  # #感谢这些词库的原作者和原原作者，来源太广（我电脑里的词库样本怕有120多了），很多作者都不大清楚，总之感谢了。
+...
+
+
+
+
+
+
+
+
+
+
+
