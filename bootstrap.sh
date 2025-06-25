@@ -50,27 +50,70 @@ else
     echo "SSH 密钥 '$SSH_KEY_PATH' 已存在，跳过解密步骤。"
 fi
 
+# --- 新增步骤：启动 SSH 代理并加载 SSH 密钥 ---
+echo "--- 正在启动 SSH 代理并加载 SSH 密钥 ---"
+
+# 检查 ssh-agent 是否已运行，如果没有则启动
+# 'ssh-agent -s' 在 bash 中输出 shell 命令，所以用 eval 执行
+# 如果 pgrep 命令不存在，它会失败，但 eval 仍会尝试运行 ssh-agent
+# 更好的方法是检查SSH_AGENT_PID和SSH_AUTH_SOCK环境变量
+if [ -z "$SSH_AUTH_SOCK" ] || [ ! -S "$SSH_AUTH_SOCK" ]; then
+    echo "启动 ssh-agent..."
+    # 使用 eval 执行 ssh-agent -s 的输出，以设置必要的环境变量
+    eval "$(ssh-agent -s)" || { echo "错误：无法启动 ssh-agent！" ; exit 1; }
+else
+    echo "ssh-agent 已经运行。"
+fi
+
+# 检查密钥是否已添加到代理，如果没有则添加
+# ssh-add -l 列出已加载的密钥
+# ssh-keygen -lf "$SSH_KEY_PATH" | awk '{print $2}' 获取密钥指纹（hash）
+# grep -q 用于静默检查，如果找到则返回 0
+if ! ssh-add -l | grep -q "$(ssh-keygen -lf "$SSH_KEY_PATH" | awk '{print $2}')"; then
+    echo "添加 SSH 密钥 '$SSH_KEY_PATH' 到 ssh-agent..."
+    # ssh-add 会提示您输入 SSH 密钥的密码
+    ssh-add "$SSH_KEY_PATH" || { echo "错误：无法将 SSH 密钥添加到 ssh-agent！" ; exit 1; }
+else
+    echo "SSH 密钥 '$SSH_KEY_PATH' 已经加载到 ssh-agent。"
+fi
+
 # --- 2.5. 替换 Git 远程 URL 为 SSH ---
 echo "--- 正在替换 Git 远程 URL 为 SSH ---"
-# ***重要提示***：请将 'https://github.com/your-username/your-dotfiles.git' 替换为您的 HTTPS 仓库地址
-# ***重要提示***：请将 'git@github.com:your-username/your-dotfiles.git' 替换为您的 SSH 仓库地址
-HTTPS_REPO_URL="https://github.com/Butterblock233/dotfiles.git"
-SSH_REPO_URL="git@github.com:Butterblock233/dotfiles.git"
 
-CURRENT_REMOTE_URL=$(git -C "$HOME/.local/share/chezmoi" remote get-url origin)
+CHEZMOI_REPO="$HOME/.local/share/chezmoi"
 
-if [[ "$CURRENT_REMOTE_URL" == "$HTTPS_REPO_URL" ]]; then
-    echo "当前远程 URL 为 HTTPS，正在切换到 SSH URL..."
-    git -C "$HOME/.local/share/chezmoi" remote set-url origin "$SSH_REPO_URL" || { echo "错误：替换 Git 远程 URL 失败！" ; exit 1; }
-    echo "Git 远程 URL 已成功切换到 '$SSH_REPO_URL'。"
-else
-    echo "当前远程 URL 已是 '$CURRENT_REMOTE_URL'，无需切换。"
+if [ ! -d "$CHEZMOI_REPO" ]; then
+    echo "错误：Chezmoi 源码目录 '$CHEZMOI_REPO' 不存在。请确保您已手动克隆您的仓库。"
+    exit 1
 fi
+
+# 获取当前远程 URL
+CURRENT_REMOTE_URL=$(git -C "$CHEZMOI_REPO" remote get-url origin | xargs)
+
+# 使用 Python 脚本处理 URL 转换逻辑（确保 convert_url_to_ssh.py 在 PATH 或当前目录中）
+SCRIPT_DIR="$(dirname "$0")"
+CONVERT_SCRIPT="$SCRIPT_DIR/convert_url_to_ssh.py"
+
+if [ ! -f "$CONVERT_SCRIPT" ]; then
+    echo "错误：找不到 Python 脚本 '$CONVERT_SCRIPT'。"
+    exit 1
+fi
+
+SSH_REPO_URL=$(python3 "$CONVERT_SCRIPT" "$CURRENT_REMOTE_URL")
+
+if [ -n "$SSH_REPO_URL" ]; then
+    echo "检测到 HTTPS URL，正在切换为 SSH：$SSH_REPO_URL"
+    git -C "$CHEZMOI_REPO" remote set-url origin "$SSH_REPO_URL" || { echo "错误：替换 Git 远程 URL 失败！" ; exit 1; }
+    echo "Git 远程 URL 已成功切换为 SSH：$SSH_REPO_URL"
+else
+    echo "当前远程 URL 不符合 HTTPS GitHub 模式或已经是 SSH，无需修改：$CURRENT_REMOTE_URL"
+fi
+
 
 # --- 3. 应用 Chezmoi 配置 ---
 echo "--- 正在应用 Chezmoi 配置 ---"
 # 因为脚本放在 Chezmoi 仓库中，所以不需要执行 'chezmoi init' 步骤。
-echo "正在执行 'chezmoi apply -v'..."
-chezmoi apply -v
+echo "正在执行 'chezmoi apply -R'..."
+chezmoi apply -R
 
 echo "--- Chezmoi 设置完成！ ---"

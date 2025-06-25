@@ -77,6 +77,68 @@ if (-not (Test-Path -Path $SshKeyPath -PathType Leaf)) { # Check if file does no
 else {
     Write-Host "SSH 密钥 '$SshKeyPath' 已存在，跳过解密步骤。"
 }
+# ---
+
+# --- 新增步骤：启动 SSH 代理并加载 SSH 密钥 ---
+Write-Host "--- 正在启动 SSH 代理并加载 SSH 密钥 ---"
+
+# 检查 SSH_AUTH_SOCK 环境变量是否存在并且指向一个有效的文件
+# 这样可以判断 ssh-agent 是否已经运行并设置了环境
+if (-not $env:SSH_AUTH_SOCK -or -not (Test-Path -Path $env:SSH_AUTH_SOCK -PathType Leaf -ErrorAction SilentlyContinue)) {
+    Write-Host "启动 ssh-agent..."
+    try {
+        # Capture the output of ssh-agent and parse environment variables
+        # ssh-agent.exe outputs environment variables like SSH_AUTH_SOCK=/tmp/...; export SSH_AUTH_SOCK;
+        $agentOutput = (ssh-agent.exe) -split "`n"
+        foreach ($line in $agentOutput) {
+            if ($line -match '^SSH_AUTH_SOCK=(.*?);') {
+                $env:SSH_AUTH_SOCK = $matches[1]
+            } elseif ($line -match '^SSH_AGENT_PID=(\d+);') {
+                $env:SSH_AGENT_PID = [int]$matches[1]
+            }
+        }
+        if (-not $env:SSH_AUTH_SOCK -or -not $env:SSH_AGENT_PID) {
+            throw "未能启动 ssh-agent 或解析其输出。请确保 ssh-agent.exe 可用且正常工作。"
+        }
+        Write-Host "ssh-agent 已启动，PID: $($env:SSH_AGENT_PID)"
+    }
+    catch {
+        Write-Host "错误：无法启动 ssh-agent！$($_.Exception.Message)" -ForegroundColor Red
+        exit 1
+    }
+} else {
+    Write-Host "ssh-agent 已经运行。"
+}
+
+# 获取 SSH 密钥的指纹用于检查密钥是否已加载
+# ssh-keygen.exe -Lf "$SshKeyPath" 输出指纹信息
+try {
+    $KeyFingerprint = (ssh-keygen.exe -Lf "$SshKeyPath" | Select-Object -Last 1).Trim()
+    if (-not $KeyFingerprint) {
+        throw "未能获取 SSH 密钥 '$SshKeyPath' 的指纹。"
+    }
+} catch {
+    Write-Host "错误：获取 SSH 密钥指纹失败。请确保 ssh-keygen.exe 可用且密钥文件有效。$($_.Exception.Message)" -ForegroundColor Red
+    exit 1
+}
+
+# 检查密钥是否已添加到代理，如果没有则添加
+# ssh-add -l 列出已加载的密钥
+# -like "*$KeyFingerprint*" 用于检查列表中是否包含此密钥的指纹
+if (-not ((ssh-add.exe -l) -like "*$KeyFingerprint*")) {
+    Write-Host "添加 SSH 密钥 '$SshKeyPath' 到 ssh-agent..."
+    # ssh-add 会提示您输入 SSH 密钥的密码
+    ssh-add.exe "$SshKeyPath"
+    if ($LASTEXITCODE -ne 0) {
+        throw "未能将 SSH 密钥添加到 ssh-agent！退出代码: $LASTEXITCODE。请检查您的 SSH 密钥密码。"
+    }
+    Write-Host "SSH 密钥 '$SshKeyPath' 已成功加载到 ssh-agent。"
+} else {
+    Write-Host "SSH 密钥 '$SshKeyPath' 已经加载到 ssh-agent。"
+}
+
+# ---
+
 
 # --- 2.5. Replace Git remote URL to SSH ---
 Write-Host "--- 正在替换 Git 远程 URL 为 SSH ---"
@@ -100,6 +162,41 @@ try {
     }
     else {
         Write-Host "当前远程 URL 已是 '$CurrentRemoteUrl'，无需切换。"
+    }
+}
+catch {
+    Write-Host "错误：Git 远程 URL 替换失败。$($_.Exception.Message)" -ForegroundColor Red
+    exit 1
+}
+
+# --- 2.5. Replace Git remote URL to SSH ---
+Write-Host "--- 正在替换 Git 远程 URL 为 SSH ---"
+
+$ChezmoiSourceDir = Join-Path $HOME ".local\share\chezmoi"
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$ConvertScript = Join-Path $ScriptDir "convert_url_to_ssh.py"
+
+if (-Not (Test-Path $ConvertScript)) {
+    Write-Host "错误：找不到 Python 脚本 '$ConvertScript'。" -ForegroundColor Red
+    exit 1
+}
+
+try {
+    $CurrentRemoteUrl = (git -C "$ChezmoiSourceDir" remote get-url origin).Trim()
+
+    # 调用 Python 脚本转换 URL
+    $SshRepoUrl = python "$ConvertScript" "$CurrentRemoteUrl"
+
+    if ([string]::IsNullOrWhiteSpace($SshRepoUrl)) {
+        Write-Host "当前远程 URL 不符合 HTTPS GitHub 模式或已经是 SSH，无需修改：$CurrentRemoteUrl"
+    }
+    else {
+        Write-Host "检测到 HTTPS URL，正在切换为 SSH：$SshRepoUrl"
+        git -C "$ChezmoiSourceDir" remote set-url origin "$SshRepoUrl"
+        if ($LASTEXITCODE -ne 0) {
+            throw "替换 Git 远程 URL 失败！退出代码: $LASTEXITCODE"
+        }
+        Write-Host "Git 远程 URL 已成功切换到 '$SshRepoUrl'。"
     }
 }
 catch {
