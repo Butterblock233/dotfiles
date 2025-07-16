@@ -79,37 +79,45 @@ else {
 }
 # ---
 
-# --- 新增步骤：启动 SSH 代理并加载 SSH 密钥 ---
+# --- 启动 SSH 代理并加载 SSH 密钥（适配 Windows） ---
 Write-Host "--- 正在启动 SSH 代理并加载 SSH 密钥 ---"
 
-# 检查 SSH_AUTH_SOCK 环境变量是否存在并且指向一个有效的文件
-# 这样可以判断 ssh-agent 是否已经运行并设置了环境
-if (-not $env:SSH_AUTH_SOCK -or -not (Test-Path -Path $env:SSH_AUTH_SOCK -PathType Leaf -ErrorAction SilentlyContinue)) {
-    Write-Host "启动 ssh-agent..."
+$sshAgentServiceName = "ssh-agent"
+
+# 检查服务是否存在
+$service = Get-Service -Name $sshAgentServiceName -ErrorAction SilentlyContinue
+if (-not $service) {
+    Write-Host "错误：未在系统中找到 ssh-agent 服务。请安装 OpenSSH 客户端组件。" -ForegroundColor Red
+    exit 1
+}
+
+# 如果服务未运行，则尝试启动
+if ($service.Status -ne 'Running') {
+    Write-Host "ssh-agent 服务未运行，正在尝试启动..."
     try {
-        # Capture the output of ssh-agent and parse environment variables
-        # ssh-agent.exe outputs environment variables like SSH_AUTH_SOCK=/tmp/...; export SSH_AUTH_SOCK;
-        $agentOutput = (ssh-agent.exe) -split "`n"
-        foreach ($line in $agentOutput) {
-            if ($line -match '^SSH_AUTH_SOCK=(.*?);') {
-                $env:SSH_AUTH_SOCK = $matches[1]
-            } elseif ($line -match '^SSH_AGENT_PID=(\d+);') {
-                $env:SSH_AGENT_PID = [int]$matches[1]
-            }
-        }
-        if (-not $env:SSH_AUTH_SOCK -or -not $env:SSH_AGENT_PID) {
-            throw "未能启动 ssh-agent 或解析其输出。请确保 ssh-agent.exe 可用且正常工作。"
-        }
-        Write-Host "ssh-agent 已启动，PID: $($env:SSH_AGENT_PID)"
-    }
-    catch {
-        Write-Host "错误：无法启动 ssh-agent！$($_.Exception.Message)" -ForegroundColor Red
+        Start-Service $sshAgentServiceName
+        Write-Host "ssh-agent 服务已启动。"
+    } catch {
+        Write-Host "错误：无法启动 ssh-agent 服务。$($_.Exception.Message)" -ForegroundColor Red
         exit 1
     }
 } else {
-    Write-Host "ssh-agent 已经运行。"
+    Write-Host "ssh-agent 服务已在运行。"
 }
 
+# 确保 ssh-agent 可以使用（添加私钥）
+$sshKeyPath = "$HOME\.ssh\bbk_main"
+if (Test-Path $sshKeyPath) {
+    Write-Host "添加 SSH 密钥 '$sshKeyPath' 到 ssh-agent..."
+    ssh-add $sshKeyPath
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "SSH 密钥已添加到代理。"
+    } else {
+        Write-Host "警告：添加 SSH 密钥失败，可能已添加或需要手动输入密码。"
+    }
+} else {
+    Write-Host "警告：未找到 SSH 密钥文件：$sshKeyPath" -ForegroundColor Yellow
+}
 # 获取 SSH 密钥的指纹用于检查密钥是否已加载
 # ssh-keygen.exe -Lf "$SshKeyPath" 输出指纹信息
 try {
