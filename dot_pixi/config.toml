@@ -1,0 +1,11 @@
+[mirrors]
+# Conda mirrors
+"https://repo.anaconda.com/pkgs/main" = ["https://mirrors.ustc.edu.cn/anaconda/pkgs/main"]
+"https://repo.anaconda.com/pkgs/free" = ["https://mirrors.ustc.edu.cn/anaconda/pkgs/free"]
+"https://conda.anaconda.org/conda-forge" = ["https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge"]
+"https://conda.anaconda.org/bioconda" = ["https://mirrors.ustc.edu.cn/anaconda/cloud/bioconda"]
+
+# PyPI mirrors
+"https://pypi.org/simple" = ["https://pypi.mirrors.ustc.edu.cn/simple"]
+"https://files.pythonhosted.org/packages" = ["https://pypi.mirrors.ustc.edu.cn/packages"]
+
