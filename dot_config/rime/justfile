@@ -1,0 +1,8 @@
+default:
+	just -l
+
+clean:
+	rm build/*
+
+update:
+	uv run remote_cn_dicts/get_dicts.py

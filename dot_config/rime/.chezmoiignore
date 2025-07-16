@@ -1,0 +1,13 @@
+build/
+rime_ice.userdb/
+remote_cn_dicts/
+.venv
+
+
+installation.yaml
+cn_dicts/41448.dict.yaml
+!remote_cn_dicts/get_dicts.py
+luna_pinyin.userdb
+rime_ice.userdb
+user.yaml
+.env
