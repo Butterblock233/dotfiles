@@ -2,7 +2,7 @@
 PowerShellEditorServices.json
 config.nu.bak
 history.txt
-test.ps1
+test.*
 temp/*
 completions/*
 *.bak
