@@ -9,7 +9,7 @@ def ensure_autoload [
     
     if not ($target | path exists) and (which $bin | is-not-empty) {
         do $cmd | save -f $target
-        print $"Generating ($name)..."
+        print $"Generating ($name | path expand )..."
         true  # 返回 true 表示生成了文件
     } else {
         false  # 返回 false 表示没有生成文件
