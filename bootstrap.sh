@@ -113,6 +113,9 @@ fi
 # --- 3. 应用 Chezmoi 配置 ---
 echo "--- 正在应用 Chezmoi 配置 ---"
 # 因为脚本放在 Chezmoi 仓库中，所以不需要执行 'chezmoi init' 步骤。
+
+echo "创建基础配置文件..."
+chezmoi apply ~/.config/chezmoi/chezmoi.toml
 echo "正在执行 'chezmoi apply -R'..."
 chezmoi apply -R
 
