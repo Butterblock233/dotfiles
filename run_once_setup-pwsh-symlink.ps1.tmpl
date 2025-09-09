@@ -1,3 +1,5 @@
+#! pwsh -c
+
 {{ if eq .chezmoi.os "windows" }}
 function Create-SymlinkIfMissing($Target, $Source) {
     if (-not (Test-Path $Target)) {
