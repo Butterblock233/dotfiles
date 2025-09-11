@@ -14,7 +14,13 @@ patch:
   "app_options/nvim.exe":
     ascii_mode: true
     disable: ["Control+space"]
+  "app_options/nvim-qt.exe":
+    ascii_mode: true
   "app_options/photoshop.exe":
+    ascii_mode: true
+  "app_options/wezterm-gui.exe":
+    ascii_mode: true
+  "app_options/nu.exe":
     ascii_mode: true
   "style/color_scheme": dark_temple
   "style/font_face": "Microsoft YaHei"

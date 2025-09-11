@@ -1,13 +1,26 @@
-build/
-rime_ice.userdb/
-remote_cn_dicts/
-.venv
-
-
-installation.yaml
-cn_dicts/41448.dict.yaml
-!remote_cn_dicts/get_dicts.py
-luna_pinyin.userdb
-rime_ice.userdb
-user.yaml
+# 开发环境相关
+.claude
 .env
+.gitignore
+.python-version
+.venv/
+build/
+uv.lock
+
+# Rime 安装工具自身
+plum/
+rime-install
+installation.yaml
+
+# 图标资源
+icons/
+
+# 远程词库同步目录（如果你是自己用 python 拉取的）
+remote_cn_dicts/
+
+# 词库备份文件
+*.bak
+
+# 用户数据
+rime_ice.userdb
+*userdb
