@@ -1,8 +1,34 @@
+# set windows-shell := ['nu']
+# set windows-powershell := true
+alias build := deploy
+
 default:
 	just -l
 
 clean:
-	rm build/*
+	Remove-Item ./build/* -Force -Recurse
 
 update:
+	@echo "Updating remote dictionaries"
 	uv run remote_cn_dicts/get_dicts.py
+
+plugin-install:
+	bash rime-install gkovacs/rime-japanese
+
+plum-install:
+	curl -fsSL https://raw.githubusercontent.com/rime/plum/master/rime-install | bash
+	@# git clone https://github.com/rime/plum.git plum
+	@# cp plum/rime-install .
+bootstrap: plugin-install update
+
+deploy:
+	nu -c "WeaselDeployer.exe /deploy"
+
+# rebuild: clean deploy
+# 	@echo "rebuilding rime config"
+#
+
+rebuild: fix
+	nu ./rebuild.nu
+fix:
+	sd "  " "\t" cn_dicts/*.yaml

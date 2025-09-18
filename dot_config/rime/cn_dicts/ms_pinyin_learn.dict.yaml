@@ -202,7 +202,6 @@ sort: by_weight
 碱性粒细胞	jian xing li xi bao	1
 记忆卡片	ji yi ka pian	1
 简要过渡	jian yao guo du	1
-及原纤维	ji yuan xian wei	1
 肌原纤维	ji yuan xian wei	1
 浆液性腺泡	jiang ye xing xian pao	1
 胶原原纤维	jiao yuan yuan xian wei	1
@@ -213,7 +212,6 @@ sort: by_weight
 肌质网	ji zhi wang	1
 叫这些	jiao zhe xie	1
 克拉拉细胞	ke la la xi bao	1
-看了子	kan le zi	1
 看乐子	kan le zi	1
 快速迭代	kuai su die dai	1
 快速普及	kuai su pu ji	1
@@ -226,10 +224,8 @@ sort: by_weight
 淋巴组织	lin ba zu zhi	1
 列表嵌套	lie biao qian tao	1
 难绷	nan beng	1
-拿出一根	na chu yi gen	1
 男的走开	nan de zou kai	1
 灵感菇	ling gan gu	1
-脸红个	lian hong ge	1
 任务记录	ren wu ji lu	1
 论文引用	lun wen yin yong	1
 那很坏了	na hen huai le	1
@@ -245,7 +241,6 @@ sort: by_weight
 燃尽了	ran jin le	1
 来开始	lai kai shi	1
 拉跨	la kua	1
-瑞克与	rui ke yu	1
 你能怎样	ni neng zen yang	1
 仍然需要	reng ran xu yao	1
 拿来帮我	na lai bang wo	1
@@ -442,8 +437,6 @@ sort: by_weight
 隐私泄露	yin si xie lou	1
 原条	yuan tiao	1
 医学教材	yi xue jiao cai	1
-优秀在	you xiu zai	1
-一些学派	yi xie xue pai	1
 医学信息检索	yi xue xin xi jian suo	1
 医学化学	yi xue hua xue	1
 医学词库	yi xue ci ku	1
@@ -460,9 +453,8 @@ sort: by_weight
 组成结构	zu cheng jie gou	1
 这道真没啥	zhe dao zhen mei sha	1
 枕动脉	zhen dong mai	1
-作对的	zuo dui de	1
 重点复习	zhong dian fu xi	1
-阻断翻译	zu duan fan yi	1
+阻断反应	zu duan fan yi	1
 最大音量	zui da yin liang	1
 自定义词库	zi ding yi ci ku	1
 这个手术	zhe ge shou shu	1
@@ -477,20 +469,15 @@ sort: by_weight
 整理过后	zheng li guo hou	1
 怎么阅读	zen me yue du	1
 终末支气管	zhong mo zhi qi guan	1
-这么装	zhe me zhuang	1
 组胚实验	zu pei shi yan	1
-赵清国	zhao qing guo	1
 支气管树	zhi qi guan shu	1
 掌浅弓	zhang qian gong	1
 增生期	zeng sheng qi	1
 中枢部	zhong shu bu	1
 掌深弓	zhang shen gong	1
 在线书籍	zai xian shu ji	1
-真学上	zhen xue shang	1
-支援四川	zhi yuan si chuan	1
 这也可能是	zhe ye ke neng shi	1
 重要部位	zhong yao bu wei	1
-主要在知识点	zhu yao zai zhi shi dian	1
 主要部位	zhu yao bu wei	1
 中央乳糜管	zhong yang ru mi guan	1
 这样有助于	zhe yang you zhu yu	1
@@ -506,3 +493,4 @@ sort: by_weight
 种植于	zhong zhi yu	1
 脏支	zang zhi	1
 正中神经	zheng zhong shen jing	1
+笑传	xiao zhuan	1
