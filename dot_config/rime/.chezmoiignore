@@ -16,7 +16,7 @@ installation.yaml
 icons/
 
 # 远程词库同步目录（如果你是自己用 python 拉取的）
-remote_cn_dicts/
+remote_cn_dicts/*.yaml
 
 # 词库备份文件
 *.bak

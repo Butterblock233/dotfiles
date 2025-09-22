@@ -22,13 +22,15 @@ plum-install:
 bootstrap: plugin-install update
 
 deploy:
-	nu -c "WeaselDeployer.exe /deploy"
+	@nu ./scripts/build.nu
 
 # rebuild: clean deploy
 # 	@echo "rebuilding rime config"
 #
 
 rebuild: fix
-	nu ./rebuild.nu
+	@nu ./scripts/rebuild.nu
+
+rebuild-all: update rebuild
 fix:
 	sd "  " "\t" cn_dicts/*.yaml
