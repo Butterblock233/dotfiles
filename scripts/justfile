@@ -1,0 +1,5 @@
+build_login:
+	python -m nuitka login.py --follow-imports --onefile --standalone -o login.exe
+
+clean_build:
+	rm -rf login.build login.dist login.onefile-build
