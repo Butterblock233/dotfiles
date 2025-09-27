@@ -1,16 +1,15 @@
-alias ss = scoop-search
-alias expo = explorer.exe .
-alias expl = explorer.exe
-alias cat = open
 
-if $env.OS == "Windows_NT" { let $explorer = "explorer.exe" } else { let $explorer = "dolphin" }
-# alias cd = __zoxide_z
+const OS = $nu.os-info.name
+
+source (
+    if $OS == "windows" { "./windows.nu" } # needs to be constant
+)
+alias cat = open
+alias nivm = nvim
 
 # Fix for wezterm scrolling issue - disable OSC133 shell integration
 $env.config = {
     shell_integration: {
         osc133: false
     }
-} 
-
-
+}
