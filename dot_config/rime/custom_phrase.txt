@@ -10,7 +10,6 @@
 # 虽然文本码表编辑较为方便，但不适合导入大量条目
 
 linux.do    lin
-✌️	ye
 Windows	windows
 macOS	macos
 Linux	linux
@@ -26,5 +25,9 @@ OpenAI	openai
 Gemini	gemini
 Claude	claude
 Rime	rime
-Steam	steam
-桭  chen
+Steam	steam 
+C++	cpp
+Python	py
+Python	python
+桭  chen  1111
+
