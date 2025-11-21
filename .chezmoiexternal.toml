@@ -23,13 +23,13 @@
     # 例如，--ff-only 确保只有在可以快进合并时才拉取
     [".emacs.d".pull]
         args = ["--ff-only"]
-# [".config/rime"]
-# 	type = "git-repo"
-#     url = "git@github.com:Butterblock233/rime.git"
-#     # refreshPeriod 是可选的，它告诉 Chezmoi 多久检查一次更新
-#     # "168h" 表示每 7 天 (168 小时) 检查一次
-#     refreshPeriod = "24h"
-#     # pull 部分也是可选的，用于给 git pull 命令传递额外参数
-#     # 例如，--ff-only 确保只有在可以快进合并时才拉取
-#     [".config/rime".pull]
-#         args = ["--ff-only"]
+[".config/rime"]
+	type = "git-repo"
+    url = "git@github.com:Butterblock233/rime-ice.git"
+    # refreshPeriod 是可选的，它告诉 Chezmoi 多久检查一次更新
+    # "168h" 表示每 7 天 (168 小时) 检查一次
+    refreshPeriod = "24h"
+    # pull 部分也是可选的，用于给 git pull 命令传递额外参数
+    # 例如，--ff-only 确保只有在可以快进合并时才拉取
+    [".config/rime".pull]
+        args = ["--ff-only"]
