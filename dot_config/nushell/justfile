@@ -1,9 +1,9 @@
-set shell := ["nu","-c"]
+set shell := ["nu", "-c"]
 
 alias clean := cleanup
 
 completion:
-	nu ./tools/gen_completions.nu
+    @nu ./tools/gen_completions.nu
 
 cleanup:
-	@nu ./tools/cleanup.nu
+    @nu ./tools/cleanup.nu
