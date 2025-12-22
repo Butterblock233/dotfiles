@@ -6,4 +6,3 @@ test.*
 temp/*
 completions/*
 *.bak
-vendor/autoload/*
